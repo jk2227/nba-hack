@@ -10,8 +10,6 @@ function fetch(query, callback) {
   xhttp.send();
 }
 
-fetch('select * from teamid_link', print);
-
 function print(result) {
   console.log(result);
 }

@@ -67,7 +67,7 @@ var hexbin = d3.hexbin()
 
 var transition = d3.transition();
 
-function plotShots(svg) {
+function plotShots(svg, teamId) {
   svg.selectAll('.hexagon').remove();
 
   var points = [];
@@ -94,10 +94,18 @@ function plotShots(svg) {
      .on("click", function(d) {
        d3.selectAll(".hexagon").style("fill", "white").style("opacity", 0.3);
        d3.select(this).style("fill", "blue").style("opacity", 0.8);
-       console.log("x: " + d.x);
-       console.log("y: " + d.y);
-       //display(d.x, d.y);
+       var shots = retrieveShots(d.x, d.y, teamId);
+       console.log(shots);
      });
 }
 
-plotShots(svg);
+function retrieveShots(x, y, opposingTeam) {
+  fetch('select * from "shot_details" as s, "sv_box_scores_2015\-2016" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam, print);
+}
+
+var select = d3.select("#opposing_team").on("change", onOpposingTeamChange);
+function onOpposingTeamChange() {
+  var sel = document.getElementById('opposing_team');
+  var value = sel.options[sel.selectedIndex].value;
+  plotShots(svg, value);
+}

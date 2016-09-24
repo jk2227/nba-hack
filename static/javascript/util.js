@@ -1,15 +1,15 @@
 function createTable(objList) {
-  playerToPercentage = {} 
+  playerToPercentage = {}
   objList.map(function(obj) {
     if (!(obj.PLAYER_NAME in playerToPercentage)) {
       playerToPercentage[obj.PLAYER_NAME] = {"made": 0, "attempted": 0}
-    } 
-    playerToPercentage[obj.PLAYER_NAME]["attempted"] += 1 
+    }
+    playerToPercentage[obj.PLAYER_NAME]["attempted"] += 1
     playerToPercentage[obj.PLAYER_NAME]["made"] += obj.SHOT_MADE_FLAG
   });
 
   for (var key in playerToPercentage) {
-    playerToPercentage[key] =  playerToPercentage[key]["made"] / playerToPercentage[key]["attempted"] 
+    playerToPercentage[key] =  playerToPercentage[key]["made"] / playerToPercentage[key]["attempted"]
   }
 
   var items = Object.keys(playerToPercentage).map(function(key) {
@@ -26,7 +26,7 @@ function createTable(objList) {
     content += '<tr>'
     content += '<td>' + items[i][0] + '</td>'
     content += '<td>' + items[i][1] + '</td>'
-    content += = '</tr>'
+    content += '</tr>'
   }
   content += '</table>'
 
@@ -35,7 +35,7 @@ function createTable(objList) {
 }
 
 function removeTable() {
-  $('#bestTable').remove(); 
+  $('#bestTable').remove();
 }
 
 var percentFormat = d3.format(".3n")
@@ -100,7 +100,10 @@ function plotShots(svg, teamId) {
 }
 
 function retrieveShots(x, y, opposingTeam) {
-  fetch('select * from "shot_details" as s, "sv_box_scores_2015\-2016" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam, createTable);
+  var query = 'select * from "shot_details" as s, "box_scores" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam;
+  query += ' and s.LOC_X > ' + (x - 20) + ' and s.LOC_Y > ' + (y - 20);
+  query += ' and s.LOC_X < ' + (x + 20) + ' and s.LOC_Y < ' + (y + 20);
+  fetch(query, print);
 }
 
 var select = d3.select("#opposing_team").on("change", onOpposingTeamChange);

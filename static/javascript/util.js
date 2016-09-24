@@ -1,11 +1,15 @@
 function createTable(objList) {
-  playerToPercentage = {}
+  var playerToPercentage = {}
+  var totalAttempt = 0;
+  var totalMade = 0; 
   objList.map(function(obj) {
     if (!(obj.PLAYER_NAME in playerToPercentage)) {
       playerToPercentage[obj.PLAYER_NAME] = {"made": 0, "attempted": 0}
     }
     playerToPercentage[obj.PLAYER_NAME]["attempted"] += 1
     playerToPercentage[obj.PLAYER_NAME]["made"] += obj.SHOT_MADE_FLAG
+    totalMade += obj.SHOT_MADE_FLAG
+    totalAttempt++ 
   });
 
   for (var key in playerToPercentage) {
@@ -21,16 +25,25 @@ function createTable(objList) {
     return second[1] - first[1];
   });
 
+  itemsReversed = []
+  items.map(function(element) { itemsReversed.push(element); });
+  itemsReversed.reverse(); 
+
   var content = "<table id= 'bestTable'>"
-  for (i = 0; i < 3; i++) {
+  var displayNum = Math.min(10, item.length);
+
+  for (i = 0; i < displayNum; i++) {
     content += '<tr>'
     content += '<td>' + items[i][0] + '</td>'
     content += '<td>' + items[i][1] + '</td>'
+    content += '<td>' + itemsReversed[i][0] + '</td>'
+    content += '<td>' + itemsReversed[i][1] + '</td>'      
     content += '</tr>'
   }
   content += '</table>'
 
   $('#best_worst_players').append(content);
+  $('#likelihood span').html('<strong>' + str(totalMade/totalAttempt) + '</strong>');
 
 }
 

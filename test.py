@@ -5,7 +5,7 @@ from sklearn.feature_selection import SelectKBest, chi2
 import sqlite3 
 
 connection = sqlite3.connect("nba.db") 
-cursor = connection.cursor() 
+cursor = connection.cursor(MySQLdb.cursors.DictCursor) 
 
 cursor.execute("SELECT TOP 10 * FROM SHOT_SUMMARY")
 result = cursor.fetchall()

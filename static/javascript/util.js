@@ -31,6 +31,8 @@ function createTable(objList) {
 
   var content = "<table id= 'bestTable'>"
   var displayNum = Math.min(10, item.length);
+  content += '<tr>'
+  content += '</tr>'
 
   for (i = 0; i < displayNum; i++) {
     content += '<tr>'
@@ -43,7 +45,7 @@ function createTable(objList) {
   content += '</table>'
 
   $('#best_worst_players').append(content);
-  $('#likelihood span').html('<strong>' + str(totalMade/totalAttempt) + '</strong>');
+  $('#likelihood').html('<strong>' + str(totalMade/totalAttempt) + '</strong>');
 
 }
 

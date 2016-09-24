@@ -37,14 +37,12 @@ function createTable(objList) {
   itemsReversed.reverse();
 
   var content = "<table id= 'bestTable'>"
-  var displayNum = Math.min(10, item.length);
+  var displayNum = Math.min(10, items.length);
 
   for (i = 0; i < displayNum; i++) {
     content += '<tr>'
     content += '<td>' + items[i][0] + '</td>'
-    content += '<td>' + items[i][1] + '</td>'
     content += '<td>' + itemsReversed[i][0] + '</td>'
-    content += '<td>' + itemsReversed[i][1] + '</td>'
     content += '</tr>'
   }
   content += '</table>'

@@ -106,7 +106,7 @@ function plotShots(svg, teamId) {
         return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")"; })
       .style("fill", "white")
       .style("opacity", 0.001)
-      .transition().duration(1500)
+      .transition().duration(1000)
       .style("opacity", 0.3);
   svg.selectAll(".hexagon")
      .on("click", function(d) {

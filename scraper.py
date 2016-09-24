@@ -52,7 +52,7 @@ class ConnectionHandler:
             df = df.append(dfTemp)
         with writeLock:
           with open('shot_details.csv' ,'a') as out:
-            df.to_csv(out, header=True)
+            df.to_csv(out, header=False)
         print("finished writing" + str(self.player_id))
 
 class ThreadPool: 

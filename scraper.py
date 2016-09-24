@@ -19,25 +19,27 @@ for season in seasons:
 
 shot_url = 'http://stats.nba.com/stats/shotchartdetail?Period=0&VsConference=&LeagueID=00&LastNGames=0&TeamID=0&Position=&Location=&ContextMeasure=FGA&DateFrom=&StartPeriod=&DateTo=&OpponentTeamID=0&ContextFilter=&RangeType=&Season=%s&AheadBehind=&EndRange=&VsDivision=&PointDiff=&RookieYear=&GameSegment=&Month=0&ClutchTime=&StartRange=&EndPeriod=&SeasonType=Regular+Season&SeasonSegment=&GameID=&PlayerID=%s&Outcome='
 
-headings = ["GAME_ID","GAME_EVENT_ID", "PLAYER_ID","PLAYER_NAME",
+headings = ["SEASON", "GAME_ID","GAME_EVENT_ID", "PLAYER_ID","PLAYER_NAME",
   "TEAM_ID","TEAM_NAME","PERIOD","MINUTES_REMAINING","SECONDS_REMAINING",
   "EVENT_TYPE","ACTION_TYPE","SHOT_TYPE","SHOT_ZONE_BASIC", "SHOT_ZONE_AREA",
   "SHOT_ZONE_RANGE","SHOT_DISTANCE","LOC_X","LOC_Y",
   "SHOT_ATTEMPTED_FLAG","SHOT_MADE_FLAG"]
 df = pd.DataFrame(columns=headings)
 for season in season_to_player_ids :
-    for player_id in season_to_player_ids[season][:1]: 
+    for player_id in season_to_player_ids[season]: 
         player_games_all = shot_url % (season, str(player_id))
         response = requests.get(player_games_all, headers={"USER-AGENT":u_a})
         shot_data = response.json()['resultSets'][0]['rowSet']
         for shot in shot_data:
             print(shot[4])
-            dfTemp = pd.DataFrame([shot[1:]], columns=headings)
+            shot[0] = season
+            shot[1] = int(shot[1])
+            dfTemp = pd.DataFrame([shot], columns=headings)
             df = df.append(dfTemp)
 
 
         
-with open('shot_details_short.csv' ,'a') as out:
+with open('shot_details.csv' ,'a') as out:
   df.to_csv(out, header=True)
 
 

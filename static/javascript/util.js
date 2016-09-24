@@ -100,7 +100,7 @@ function plotShots(svg, teamId) {
 }
 
 function retrieveShots(x, y, opposingTeam) {
-  fetch('select * from "shot_details" as s, "sv_box_scores_2015\-2016" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam, print);
+  fetch('select * from "shot_details" as s, "sv_box_scores_2015\-2016" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam, createTable);
 }
 
 var select = d3.select("#opposing_team").on("change", onOpposingTeamChange);

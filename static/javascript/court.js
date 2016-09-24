@@ -147,5 +147,3 @@ var yScale = d3.scale.linear()
   .range([height - 2*padding, 0]);
 
 drawCourt(svg, 0);
-
-

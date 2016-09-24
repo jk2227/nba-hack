@@ -44,7 +44,7 @@ class ConnectionHandler:
         response = requests.get(self.shot_url, headers={"USER-AGENT":self.u_a})
         shot_data = response.json()['resultSets'][0]['rowSet']
         df = pd.DataFrame(columns=headings)
-        print str(self.player_id)
+        print(str(self.player_id))
         for shot in shot_data:
             shot[0] = self.season
             shot[1] = int(shot[1])
@@ -53,7 +53,7 @@ class ConnectionHandler:
         with writeLock:
           with open('shot_details.csv' ,'a') as out:
             df.to_csv(out, header=True)
-        print "finished writing" + str(self.player_id) 
+        print("finished writing" + str(self.player_id))
 
 class ThreadPool: 
   def __init__(self, numWorkers):
@@ -73,7 +73,7 @@ def main():
 
   # seasons of interest 
   seasons = ['2014-15', '2015-16'] 
-
+  u_a = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/480.0.2564.109 Safari/537.36"
 
   #player ids for a particular season
   season_to_player_ids = {}

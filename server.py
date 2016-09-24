@@ -25,12 +25,14 @@ def run_query(query):
 
 app = Flask(__name__)
 
-@app.route("/query/<query_str>")
+@app.route('/query/<query_str>')
 def query(query_str):
-    # Example query
-    # rows = run_query('select * from teamid_link where "index" > 5')
     rows = run_query(query_str)
     return json.dumps(rows)
+
+@app.route('/')
+def load():
+  return app.send_static_file('index.html')
 
 if __name__ == "__main__":
     app.run()

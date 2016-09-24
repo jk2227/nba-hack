@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-disk_engine = create_engine('sqlite:///../nba.db')
+disk_engine = create_engine('sqlite:///nba.db')
 
 def nba_create_table(table_name):
   print "importing: " + table_name

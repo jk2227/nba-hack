@@ -4,9 +4,6 @@ var drag = d3.behavior.drag()
   .on("drag", dragging)
   .on("dragstart", dragging);
 
-var selectionRadius = 7.5;
-d3.select("#selectionRadius").node().value = selectionRadius;
-
 // Function that is called every time the mouse is dragged
 function dragging(){
   // Mouse coords to calculate circle radius

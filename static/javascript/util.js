@@ -1,7 +1,13 @@
 function createTable(objList) {
   var playerToPercentage = {}
   var totalAttempt = 0;
-  var totalMade = 0; 
+  var totalMade = 0;
+  removeTable();
+  if (objList.length == 0) {
+    alert("No shots taken from this region!");
+    return [];
+  }
+  console.log(objList);
   objList.map(function(obj) {
     if (!(obj.PLAYER_NAME in playerToPercentage)) {
       playerToPercentage[obj.PLAYER_NAME] = {"made": 0, "attempted": 0}
@@ -9,7 +15,7 @@ function createTable(objList) {
     playerToPercentage[obj.PLAYER_NAME]["attempted"] += 1
     playerToPercentage[obj.PLAYER_NAME]["made"] += obj.SHOT_MADE_FLAG
     totalMade += obj.SHOT_MADE_FLAG
-    totalAttempt++ 
+    totalAttempt++
   });
 
   for (var key in playerToPercentage) {
@@ -24,10 +30,11 @@ function createTable(objList) {
   items.sort(function(first, second) {
     return second[1] - first[1];
   });
+  console.log(items);
 
   itemsReversed = []
   items.map(function(element) { itemsReversed.push(element); });
-  itemsReversed.reverse(); 
+  itemsReversed.reverse();
 
   var content = "<table id= 'bestTable'>"
   var displayNum = Math.min(10, item.length);
@@ -37,7 +44,7 @@ function createTable(objList) {
     content += '<td>' + items[i][0] + '</td>'
     content += '<td>' + items[i][1] + '</td>'
     content += '<td>' + itemsReversed[i][0] + '</td>'
-    content += '<td>' + itemsReversed[i][1] + '</td>'      
+    content += '<td>' + itemsReversed[i][1] + '</td>'
     content += '</tr>'
   }
   content += '</table>'
@@ -113,10 +120,10 @@ function plotShots(svg, teamId) {
 }
 
 function retrieveShots(x, y, opposingTeam) {
-  var query = 'select * from "shot_details" as s, "box_scores" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam;
+  var query = 'select s.PLAYER_NAME, s.SHOT_MADE_FLAG from "shot_details" as s, "box_scores" as g where s.GAME_ID = g."GAME_ID" and s.TEAM_ID = g."TEAM_ID" and g."VS_TEAM_ID" = ' + opposingTeam;
   query += ' and s.LOC_X > ' + (x - 20) + ' and s.LOC_Y > ' + (y - 20);
   query += ' and s.LOC_X < ' + (x + 20) + ' and s.LOC_Y < ' + (y + 20);
-  fetch(query, print);
+  fetch(query, createTable);
 }
 
 var select = d3.select("#opposing_team").on("change", onOpposingTeamChange);

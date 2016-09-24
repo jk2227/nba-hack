@@ -1,3 +1,43 @@
+function createTable(objList) {
+  playerToPercentage = {} 
+  objList.map(function(obj) {
+    if (!(obj.PLAYER_NAME in playerToPercentage)) {
+      playerToPercentage[obj.PLAYER_NAME] = {"made": 0, "attempted": 0}
+    } 
+    playerToPercentage[obj.PLAYER_NAME]["attempted"] += 1 
+    playerToPercentage[obj.PLAYER_NAME]["made"] += obj.SHOT_MADE_FLAG
+  });
+
+  for (var key in playerToPercentage) {
+    playerToPercentage[key] =  playerToPercentage[key]["made"] / playerToPercentage[key]["attempted"] 
+  }
+
+  var items = Object.keys(playerToPercentage).map(function(key) {
+    return [key, playerToPercentage[key]];
+  });
+
+  // Sort the array based on the second element
+  items.sort(function(first, second) {
+    return second[1] - first[1];
+  });
+
+  var content = "<table id= 'bestTable'>"
+  for (i = 0; i < 3; i++) {
+    content += '<tr>'
+    content += '<td>' + items[i][0] + '</td>'
+    content += '<td>' + items[i][1] + '</td>'
+    content += = '</tr>'
+  }
+  content += '</table>'
+
+  $('#best_worst_players').append(content);
+
+}
+
+function removeTable() {
+  $('#bestTable').remove(); 
+}
+
 var percentFormat = d3.format(".3n")
 
 var drag = d3.behavior.drag()
